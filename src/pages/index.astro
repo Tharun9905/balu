@@ -227,7 +227,7 @@ import Testimonials from '../components/Testimonials';
     .contact-item:hover { color: var(--electric-cyan); }
 
     /* Float */
-    .wa-float { position: fixed; bottom: 40px; right: 40px; width: 56px; height: 56px; background-color: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: white; z-index: 100; animation: pulseWA 2s infinite; }
+    .wa-float { position: fixed; bottom: 30px; left: 30px; width: 56px; height: 56px; background-color: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: white; z-index: 100; animation: pulseWA 2s infinite; }
     @keyframes pulseWA { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
 
     /* About Enhanced */
@@ -252,6 +252,7 @@ import Testimonials from '../components/Testimonials';
       .contact-card { padding: 30px 20px; }
       form.newsletter-form { flex-direction: column; }
       .footer-bottom { flex-direction: column; gap: 20px; padding-bottom: 20px; }
+      .wa-float { bottom: 20px; left: 20px; width: 50px; height: 50px; }
     }
     @media (max-width: 480px) {
       .stats-grid, .ig-grid { grid-template-columns: 1fr; }
@@ -329,4 +330,23 @@ import Testimonials from '../components/Testimonials';
       navLinks?.classList.toggle('show');
     });
   </script>
+
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  // Customizing Widget color to Electric Cyan to match branding
+  Tawk_API.customStyle = {
+    visibility : { desktop : { xOffset : '20px', yOffset : '20px' }, mobile : { xOffset : '20px', yOffset : '20px' } }
+  };
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/69ce34cfbe444a1c3a7ffe23/1jl6nsjnk';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
+
 </Layout>
