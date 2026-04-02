@@ -1,0 +1,2 @@
+Please place the downloaded image of Balu in this exact directory and name it `balu.jpg`.
+The layout is already configured to read from `/balu.jpg` and will render perfectly once the file is placed here!

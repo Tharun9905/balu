@@ -1,0 +1,332 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Preloader from '../components/Preloader';
+import Cursor from '../components/Cursor';
+import ParticleCanvas from '../components/ParticleCanvas';
+import Gallery from '../components/Gallery';
+import ServiceCards from '../components/ServiceCards';
+import Testimonials from '../components/Testimonials';
+---
+
+<Layout title="Balu Studio | Wedding & Candid Photography in Kalyandurg">
+  <Preloader client:load />
+  <Cursor client:load />
+  <div class="video-bg-container">
+    <div class="hero-ai-bg" style="background-image: url('/cinematic_hero_bg.png')"></div>
+    <div class="video-overlay"></div>
+  </div>
+
+  <nav id="navbar">
+    <div class="nav-content">
+      <a href="#" class="logo">BALU STUDIO</a>
+      <button class="hamburger hoverable" id="menu-btn">☰</button>
+      <div class="nav-links" id="nav-links">
+        <a class="hoverable" href="#home">Home</a>
+        <a class="hoverable" href="#services">Services</a>
+        <a class="hoverable" href="#gallery">Work</a>
+        <a class="hoverable" href="#about">About</a>
+        <a class="hoverable" href="#contact">Contact</a>
+        <a href="#contact" class="btn btn-pill hoverable">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="floating-shapes" id="shapes-container">
+      <svg class="shape" width="60" height="60" viewBox="0 0 60 60" style="top:20%; left:10%"><polygon points="30,5 55,50 5,50"/></svg>
+      <svg class="shape" width="50" height="50" viewBox="0 0 50 50" style="top:60%; left:80%"><circle cx="25" cy="25" r="20"/></svg>
+      <svg class="shape" width="70" height="70" viewBox="0 0 70 70" style="top:15%; right:20%"><rect x="10" y="10" width="50" height="50"/></svg>
+      <svg class="shape" width="40" height="40" viewBox="0 0 40 40" style="top:80%; left:30%"><polygon points="20,0 40,20 20,40 0,20"/></svg>
+      <svg class="shape" width="80" height="90" viewBox="0 0 80 90" style="top:40%; right:10%"><polygon points="40,5 75,25 75,65 40,85 5,65 5,25"/></svg>
+    </div>
+    <div class="hero-content reveal parallax" data-speed="40">
+      <h1 class="hero-headline" id="hero-title">Balu Studio</h1>
+      <div class="hero-subheadline">Cinematic Visionaries of Kalyandurg</div>
+      <div class="hero-caption">7+ Years · Wedding · Candid · Reels · Creative Edits</div>
+      <div class="hero-cta">
+        <a href="#about" class="btn btn-pill hoverable">Meet The Founder &rarr;</a>
+        <a href="#gallery" class="btn btn-ghost hoverable">View Our Work &darr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-container" id="services">
+    <div class="section-header reveal">
+      <div class="section-label">— What We Create —</div>
+      <h2>Every Frame, A Story</h2>
+    </div>
+    <ServiceCards client:load />
+  </section>
+
+  <section class="section-container" id="gallery">
+    <div class="section-header reveal parallax" data-speed="20">
+      <div class="section-label">— Featured Work —</div>
+      <h2>Moments Beyond Gravity</h2>
+    </div>
+    <Gallery client:load />
+  </section>
+
+  <section class="section-container" id="about">
+    <div class="about-layout">
+      <div class="about-image-wrapper reveal">
+        <img src="/balu.jpg" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80'" alt="Balu - Founder & Lead Photographer" class="about-img hoverable" />
+      </div>
+      <div class="about-text reveal">
+        <div class="section-label">— Meet The Founder —</div>
+        <h2>Hi, I'm Balu. Capturing your best moments.</h2>
+        <p>I am the lead photographer and visionary behind Balu Studio. For over 7 years, I have dedicated myself to capturing the raw emotion, natural beauty, and cinematic essence of weddings and candid moments across Kalyandurg.</p>
+        <p style={{ marginTop: '15px' }}>My goal is to make every frame fell like a scene from an award-winning movie, blending local warmth with high-end camera technique.</p>
+        
+        <div class="stats-grid" style="margin-top: 40px;">
+          <div class="stat-card hoverable">
+            <div class="stat-val">700+</div>
+            <div class="stat-label">Weddings Shot</div>
+          </div>
+          <div class="stat-card hoverable">
+            <div class="stat-val">7+</div>
+            <div class="stat-label">Years Exp.</div>
+          </div>
+          <div class="stat-card hoverable">
+            <div class="stat-val">Award</div>
+            <div class="stat-label">Winning Edits</div>
+          </div>
+          <div class="stat-card hoverable">
+            <div class="stat-val">∞</div>
+            <div class="stat-label">Memories</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-container" id="testimonials" style="padding-top: 50px;">
+    <div class="section-header reveal">
+      <div class="section-label">— Client Love —</div>
+      <h2>What Our Couples Say</h2>
+    </div>
+    <Testimonials client:load />
+  </section>
+
+  <section class="section-container">
+    <div class="section-header reveal">
+      <h2>Follow Our Lens</h2>
+      <div class="ig-handles">
+        <a class="hoverable" href="https://www.instagram.com/balustudio2024?igsh=MWsxdmlmcDdudDNpcw==" target="_blank">@balustudio2024</a>
+      </div>
+    </div>
+    <div class="ig-grid reveal">
+      {[ 'https://images.unsplash.com/photo-1519741497674-611481863552',
+         'https://images.unsplash.com/photo-1606800052052-a08af7148866',
+         'https://images.unsplash.com/photo-1469334031218-e382a71b716b',
+         'https://images.unsplash.com/photo-1522673607200-164d1b6ce486',
+         'https://images.unsplash.com/photo-1511285560929-80b456fea0bc',
+         'https://images.unsplash.com/photo-1520854221256-17451cc331bf'
+      ].map((url) => (
+        <a href="https://www.instagram.com/balustudio2024?igsh=MWsxdmlmcDdudDNpcw==" target="_blank" class="ig-card hoverable" style={`background-image: url(${url}?auto=format&fit=crop&w=400&q=80); background-size: cover; background-position: center; display: block;`} />
+      ))}
+    </div>
+    <div class="btn-wrap reveal">
+      <a href="https://www.instagram.com/balustudio2024?igsh=MWsxdmlmcDdudDNpcw==" target="_blank" class="btn btn-pill hoverable">Follow on Instagram &rarr;</a>
+    </div>
+  </section>
+
+  <section class="section-container" id="contact">
+    <div class="contact-card reveal">
+      <h2>Let's Create Together</h2>
+      <p style="opacity: 0.8; margin-top: 10px;">Based in Kalyandurg — Available across Andhra Pradesh</p>
+      <div class="contact-items">
+        <a href="tel:+919121059905" class="contact-item hoverable">📞 +91 91210 59905</a>
+        <a href="tel:+919866022832" class="contact-item hoverable">📞 +91 98660 22832</a>
+        <a href="https://maps.google.com/?q=H436+H9C,+Bellary+Rd,+Kalyandurg,+Andhra+Pradesh" target="_blank" class="contact-item hoverable">📍 H436+H9C, Bellary Rd, Kalyandurg</a>
+      </div>
+      <a href="tel:+919121059905" class="btn btn-primary hoverable" style="width: 100%; margin-top: 20px;">Book Your Shoot Now &rarr;</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-content section-container">
+      <div class="footer-newsletter reveal" style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto' }}>
+        <h3 style={{ fontSize: '32px', marginBottom: '12px' }}>Join The Studio List</h3>
+        <p style={{ opacity: 0.8, marginBottom: '30px' }}>Get exclusive early-booking access and photography tips straight to your inbox.</p>
+        <form class="newsletter-form" style={{ display: 'flex', gap: '12px' }}>
+          <input type="email" placeholder="Enter your email address" required class="hoverable" style={{ flex: 1, padding: '18px 24px', borderRadius: '12px', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', color: 'var(--stellar-white)', fontFamily: 'var(--font-body)', fontSize: '16px', outline: 'none' }} />
+          <button type="submit" class="btn btn-primary hoverable" style={{ cursor: 'none' }}>Subscribe</button>
+        </form>
+      </div>
+      <div class="footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '40px', borderTop: '1px solid var(--glass-border)', opacity: 0.7, fontSize: '14px', marginTop: '60px' }}>
+        <p>&copy; 2025 Balu Studio. All rights reserved.</p>
+        <div class="footer-links" style={{ display: 'flex', gap: '20px' }}>
+          <a href="#home" class="hoverable">Home</a>
+          <a href="#gallery" class="hoverable">Work</a>
+          <a href="#about" class="hoverable">About</a>
+          <a href="#contact" class="hoverable">Contact</a>
+          <a href="#" class="hoverable">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  {/* WhatsApp Float */}
+  <a href="https://wa.me/919121059905" class="wa-float hoverable" target="_blank" aria-label="Chat on WhatsApp">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  </a>
+
+  <style>
+    /* Section Specific Styles go here. CSS Variables are from global.css */
+    /* AI Animated Background */
+    .video-bg-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; background: #000; }
+    .hero-ai-bg { width: 100%; height: 100%; background-size: cover; background-position: center; animation: cinematicPan 20s infinite alternate ease-in-out; transform-origin: center; }
+    @keyframes cinematicPan { 0% { transform: scale(1) translate(0, 0); filter: brightness(0.8); } 100% { transform: scale(1.15) translate(-10px, 15px); filter: brightness(1.1); } }
+    .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(4, 4, 15, 0.6) 0%, rgba(4, 4, 15, 0.95) 100%); pointer-events: none; }
+
+    /* Navbar */
+    nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 20px 0; transition: all 0.3s ease; }
+    nav.scrolled { background: var(--glass-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+    .nav-content { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: var(--font-heading); color: var(--electric-cyan); font-weight: 700; font-size: 24px; text-decoration: none; letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--stellar-white); text-decoration: none; font-family: var(--font-heading); font-weight: 400; position: relative; padding-bottom: 4px; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--electric-cyan); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease; }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .hamburger { display: none; background: transparent; border: none; color: white; font-size: 24px; cursor: none; }
+
+    /* Hero */
+    .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+    .hero-content { max-width: 900px; padding: 0 24px; z-index: 10; }
+    .hero-headline { background: linear-gradient(to right, #00FFFF, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+    .hero-subheadline { font-weight: 400; font-size: clamp(20px, 3vw, 28px); opacity: 0.85; margin-bottom: 24px; }
+    .hero-caption { font-family: var(--font-heading); font-weight: 300; font-size: 16px; letter-spacing: 0.2em; color: var(--electric-cyan); text-transform: uppercase; margin-bottom: 40px; }
+    .hero-cta { display: flex; gap: 16px; justify-content: center; }
+
+    /* Floating Shapes */
+    .floating-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+    .shape { position: absolute; opacity: 0.12; stroke: var(--electric-cyan); fill: transparent; stroke-width: 2; animation: float 10s infinite linear alternate; }
+    @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(-40px); } }
+
+    /* About */
+    .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-text { padding-right: 20px; }
+    .about-text p { opacity: 0.8; margin-top: 20px; font-size: 18px; line-height: 1.8; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .stat-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px 20px; text-align: center; }
+    .stat-val { font-family: var(--font-heading); font-size: 36px; color: var(--electric-cyan); font-weight: 700; margin-bottom: 8px; }
+    .stat-label { font-size: 14px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* IG Grid */
+    .ig-handles { display: flex; gap: 20px; justify-content: center; margin-top: 10px; margin-bottom: 40px; }
+    .ig-handles a { color: var(--electric-cyan); text-decoration: none; font-family: var(--font-heading); }
+    .ig-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 40px; }
+    .ig-card { aspect-ratio: 1; background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; }
+    .ig-card:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0,255,255,0.3); z-index: 2; border: 1px solid var(--electric-cyan); }
+    .btn-wrap { text-align: center; }
+
+    /* Contact */
+    .contact-card { max-width: 680px; margin: 0 auto; background: var(--glass-bg); border: 1px solid rgba(0,255,255,0.20); border-radius: 24px; padding: 48px; box-shadow: 0 40px 120px rgba(0, 255, 255, 0.06); text-align: center; }
+    .contact-items { margin: 30px 0; display: flex; flex-direction: column; gap: 16px; }
+    .contact-item { font-size: 18px; color: var(--stellar-white); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 12px; transition: color 0.3s; }
+    .contact-item:hover { color: var(--electric-cyan); }
+
+    /* Float */
+    .wa-float { position: fixed; bottom: 40px; right: 40px; width: 56px; height: 56px; background-color: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: white; z-index: 100; animation: pulseWA 2s infinite; }
+    @keyframes pulseWA { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+
+    /* About Enhanced */
+    .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-image-wrapper { width: 100%; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 255, 255, 0.1); border: 1px solid var(--glass-border); }
+    .about-img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; transform-origin: center; transition: transform 0.6s ease; }
+    .about-img:hover { transform: scale(1.05); }
+
+    /* Footer Enhancements */
+    .site-footer { border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); margin-top: 100px; }
+    .footer-links a { color: var(--stellar-white); text-decoration: none; }
+
+    /* Breakpoints */
+    @media (max-width: 1200px) { .ig-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--deep-space); flex-direction: column; padding: 20px 0; }
+      .nav-links.show { display: flex; }
+      .hamburger { display: block; }
+      .about-layout { grid-template-columns: 1fr; gap: 40px; }
+      .hero-cta { flex-direction: column; }
+      .ig-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-card { padding: 30px 20px; }
+      form.newsletter-form { flex-direction: column; }
+      .footer-bottom { flex-direction: column; gap: 20px; padding-bottom: 20px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid, .ig-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero Text Animation Letter by Letter
+    const heroTitle = document.getElementById('hero-title');
+    if (heroTitle) {
+      const text = heroTitle.innerText;
+      heroTitle.innerHTML = text.split('').map((char, i) => 
+        `<span class="hero-letter" style="display:inline-block">${char === ' ' ? '&nbsp;' : char}</span>`
+      ).join('');
+      
+      gsap.from(".hero-letter", {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: "power2.out",
+        delay: 0.2
+      });
+    }
+
+    // Scroll Reveal for '.reveal' items
+    gsap.utils.toArray('.reveal').forEach((elem: any) => {
+      gsap.to(elem, {
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 85%",
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+    });
+
+    // Parallax
+    gsap.utils.toArray('.parallax').forEach((elem: any) => {
+      const speed = elem.dataset.speed || 100;
+      gsap.to(elem, {
+        scrollTrigger: {
+          trigger: "body",
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        },
+        y: speed
+      });
+    });
+
+    // Subheadline fade
+    gsap.from(".hero-subheadline", { opacity: 0, y: 20, duration: 1, delay: 0.8 });
+    gsap.from(".hero-caption", { opacity: 0, y: 20, duration: 1, delay: 1 });
+    gsap.from(".hero-cta", { opacity: 0, y: 20, duration: 1, delay: 1.2 });
+
+    // Navbar Scrolled Effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 60) navbar?.classList.add('scrolled');
+      else navbar?.classList.remove('scrolled');
+    });
+
+    // Mobile Menu
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    menuBtn?.addEventListener('click', () => {
+      navLinks?.classList.toggle('show');
+    });
+  </script>
+</Layout>

@@ -1,0 +1,100 @@
+:root {
+  --deep-space: #04040f;
+  --space-mid: #0d0b2a;
+  --electric-cyan: #00FFFF;
+  --violet: #7c3aed;
+  --soft-violet: #a78bfa;
+  --stellar-white: #F5F5FF;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(0, 255, 255, 0.15);
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--deep-space);
+  color: var(--stellar-white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Typography */
+h1, h2, h3, .heading-font {
+  font-family: var(--font-heading);
+}
+h1 { font-size: clamp(48px, 6vw, 72px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+h2 { font-size: clamp(32px, 4vw, 42px); line-height: 1.2; font-weight: 500; }
+h3 { font-size: 24px; font-weight: 500; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+.btn-pill {
+  border: 1px solid rgba(0,255,255,0.4);
+  background: rgba(0,255,255,0.08);
+  color: var(--stellar-white);
+}
+.btn-pill:hover {
+  background: rgba(0,255,255,0.18);
+  box-shadow: 0 0 20px rgba(0,255,255,0.5);
+}
+.btn-ghost {
+  color: var(--stellar-white);
+  opacity: 0.8;
+  background: transparent;
+}
+.btn-ghost:hover {
+  opacity: 1;
+  color: var(--electric-cyan);
+}
+.btn-primary {
+  background: linear-gradient(90deg, var(--electric-cyan), var(--violet));
+  color: var(--deep-space);
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 18px 36px;
+  border: none;
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+/* Layout */
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 100px 24px;
+}
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-label { color: var(--electric-cyan); letter-spacing: 0.15em; font-family: var(--font-heading); margin-bottom: 12px; font-size: 14px; text-transform: uppercase; }
+
+/* Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+}

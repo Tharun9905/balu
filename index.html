@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balu Studio | Cinematic Photography Kalyandurg</title>
+  <meta name="description" content="Award-worthy wedding, candid, and event photography in Kalyandurg, AP. 7+ years of cinematic storytelling. Call: +91 91210 59905" />
+  <meta property="og:title" content="Balu Studio | Cinematic Photography" />
+  <meta property="og:description" content="Cinematic storytelling for weddings and events in Kalyandurg, AP." />
+  <meta property="og:image" content="poster.jpg" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "PhotographyBusiness",
+    "name": "Balu Studio",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "H436+H9C, Bellary Rd",
+      "addressLocality": "Kalyandurg",
+      "addressRegion": "Andhra Pradesh"
+    },
+    "telephone": "+919121059905"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;700&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --deep: #050505;
+      --cream: #f5f0e8;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a3;
+      --muted: #2a2a2a;
+      --text-dim: rgba(245,240,232,0.4);
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+
+    body {
+      background-color: var(--black);
+      color: var(--cream);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: none;
+      perspective: 1200px; /* 3D Perspective for Hero */
+    }
+
+    /* CUSTOM CURSOR */
+    #cursor-dot {
+      position: fixed; top: 0; left: 0; width: 10px; height: 10px;
+      background: var(--cream); border-radius: 50%;
+      pointer-events: none; z-index: 10000; transform: translate(-50%, -50%);
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+      border: 2px solid var(--cream); border-radius: 50%;
+      pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
+    }
+    .cursor-hover-img #cursor-ring {
+      width: 56px; height: 56px; background: rgba(201,169,110,0.4); border-color: transparent;
+    }
+    .cursor-hover-link #cursor-ring {
+      width: 8px; height: 8px; background: var(--gold); border-color: var(--gold);
+    }
+
+    /* SIDEBAR NAV */
+    .sidebar-nav {
+      position: fixed; left: 2rem; top: 50%; transform: translateY(-50%);
+      z-index: 1000; display: flex; flex-direction: column; gap: 2rem;
+    }
+    .nav-item {
+      font-family: var(--font-body); font-weight: 500; font-size: 9px;
+      letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase;
+      text-decoration: none; position: relative; transition: color 0.3s, transform 0.25s;
+    }
+    .nav-item.active { color: var(--gold); transform: scaleX(1.05); }
+    .nav-item.active::before { content: ''; position: absolute; left: -16px; top: 40%; width: 8px; height: 1px; background: var(--gold); }
+    .nav-brand {
+      position: fixed; bottom: 8rem; left: 2rem;
+      font-family: var(--font-body); font-size: 10px; letter-spacing: 0.3em;
+      color: var(--gold); transform: rotate(-90deg); transform-origin: left bottom; z-index: 1000;
+    }
+
+    /* TYPOGRAPHY & UTILITIES */
+    .h-display { font-family: var(--font-display); line-height: 1; font-weight: 700; color: var(--cream); }
+    .text-gold { color: var(--gold); }
+    .giant-word {
+      font-size: 20vw; letter-spacing: -0.02em; white-space: nowrap;
+      position: absolute; bottom: -5%; left: 10%; z-index: 2;
+      clip-path: inset(100% 0 0 0); will-change: clip-path; /* Revealer */
+    }
+
+    /* SECTION 1 - HERO */
+    .sec-hero { height: 100vh; position: relative; display: flex; align-items: flex-end; padding: 4rem 8rem; }
+    .hero-bg, .bg-layer {
+      position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+      object-fit: cover; z-index: -2; will-change: transform;
+    }
+    .hero-vid-wrapper {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -2; transform-style: preserve-3d;
+      transform: rotateX(8deg) rotateY(-2deg) scale(1.08); /* Initial setup before load anim */
+      will-change: transform;
+    }
+    .gradient-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(5,5,5,0.15) 0%, rgba(5,5,5,0.7) 60%, rgba(5,5,5,1) 100%); z-index: -1;
+    }
+    #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .hero-content { z-index: 10; position: relative; }
+    .hero-line { display: block; clip-path: inset(0 0 0 0); }
+    .hero-word { display: inline-block; font-size: 16vw; margin-bottom: -4vw; opacity: 0; transform: translateY(60px); }
+    .hero-sub { font-size: 11px; letter-spacing: 0.3em; opacity: 0; margin-top: 4vw; color: rgba(245,240,232,0.6); }
+    .cta-area { position: absolute; bottom: 4rem; right: 4rem; text-align: center; font-size: 9px; letter-spacing: 0.2em; color: var(--gold); }
+    .arrow-down { margin-top: 8px; animation: bounce 2s infinite; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+    /* STARTUP LOADER overlay */
+    #loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--black); z-index: 99999; transition: opacity 0.8s; pointer-events: none;}
+
+    /* SECTION 2 - STORY */
+    .sec-story { min-height: 100vh; position: relative; padding: 15vh 10vw; display: flex; align-items: center; justify-content: space-between; }
+    .story-images { position: relative; width: 40vw; height: 60vh; perspective: 1000px; }
+    .floating-card {
+      position: absolute; width: 240px; height: 320px;
+      border: 1px solid rgba(201,169,110,0.2); background-size: cover; background-position: center;
+      transition: transform 0.1s linear; transform-style: preserve-3d;
+    }
+    .card1 { top: 0; left: 0; transform: rotate(-4deg); z-index: 3; background-image: url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=600'); }
+    .card2 { top: 15%; left: 20%; transform: rotate(2deg); z-index: 2; background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600'); }
+    .card3 { bottom: 0; right: 0; transform: rotate(-2deg); z-index: 1; background-image: url('https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600'); }
+    
+    .story-content { width: 35vw; z-index: 10; }
+    .label { font-size: 9px; color: var(--gold); letter-spacing: 0.25em; margin-bottom: 2rem; display: block; }
+    .story-h2 { font-size: 48px; margin-bottom: 1.5rem; font-weight: 500; }
+    .story-p { font-size: 15px; font-weight: 300; line-height: 1.9; color: rgba(245,240,232,0.7); overflow: hidden; }
+    .split-line { display: block; clip-path: inset(0 0 0 0); transform: translateX(-40px); opacity: 0; transition: all 0.8s ease; }
+    .split-line.revealed { transform: translateX(0); opacity: 1; }
+    .stats { display: flex; gap: 3rem; margin-top: 4rem; }
+    .stat-num { font-size: 40px; color: var(--gold); font-family: var(--font-display); }
+    .stat-label { font-size: 9px; letter-spacing: 0.1em; opacity: 0.6; }
+
+    /* SECTION 3 - WORK */
+    .sec-work { height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .gallery-filters { position: absolute; top: 15vh; right: 10vw; display: flex; gap: 2rem; z-index: 10; }
+    .filter-tab { font-size: 9px; letter-spacing: 0.15em; color: var(--text-dim); cursor: none; transition: color 0.3s; }
+    .filter-tab.active { color: var(--cream); border-bottom: 1px solid var(--gold); padding-bottom: 4px; }
+    .gallery-track { display: flex; gap: 32px; padding: 0 10vw; will-change: transform; }
+    .gallery-card {
+      width: 380px; height: 520px; flex-shrink: 0; position: relative; overflow: hidden;
+      transition: transform 0.4s ease, border-color 0.4s; border: 1px solid transparent;
+    }
+    .gallery-card:hover { transform: scale(1.04) translateZ(30px); border-color: rgba(201,169,110,0.5); z-index: 5; }
+    .gallery-card .img { width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 0.6s; }
+    .gallery-card:hover .img { transform: scale(1.05); }
+    .gallery-overlay {
+      position: absolute; bottom: 0; width: 100%; padding: 2rem; background: rgba(10,10,10,0.4);
+      backdrop-filter: blur(12px); opacity: 0; transform: translateY(16px); transition: all 0.3s ease;
+    }
+    .gallery-card:hover .gallery-overlay { opacity: 1; transform: translateY(0); }
+    .gal-title { font-size: 22px; font-family: var(--font-display); font-weight: 500; margin-bottom: 8px; }
+    .gal-tag { font-size: 9px; color: var(--gold); letter-spacing: 0.2em; }
+
+    /* SECTION 4 - REELS */
+    .sec-reels { min-height: 100vh; position: relative; padding: 15vh 10vw; display: flex; align-items: center; justify-content: center; overflow: hidden;}
+    .reels-bg-video {
+      position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover;
+      mix-blend-mode: luminosity; z-index: -2; opacity: 0; transition: opacity 1s;
+    }
+    .reels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; z-index: 10; perspective: 800px; }
+    .reel-card { width: 200px; height: 350px; position: relative; transform-style: preserve-3d; transition: transform 0.7s ease-in-out; opacity: 0; transform: translateY(60px) scale(0.85); }
+    .reel-card.revealed { opacity: 1; transform: translateY(0) scale(1); }
+    .reel-card:hover { transform: rotateY(180deg); }
+    .reel-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background-size: cover; display: flex; align-items: center; justify-content: center; }
+    .reel-front { background: linear-gradient(to bottom, #111, #000); border: 1px solid #222; }
+    .reel-back { background: var(--black); border: 1px solid var(--gold); transform: rotateY(180deg); flex-direction: column; padding: 20px; text-align: center; }
+    .play-icon { width: 32px; height: 32px; fill: var(--cream); }
+    .reel-desc { font-size: 14px; font-family: var(--font-display); margin-bottom: 20px; }
+    .reel-link { font-size: 9px; color: var(--gold); text-decoration: none; letter-spacing: 0.1em; border-bottom: 1px solid var(--gold); }
+
+    /* SECTION 5 - THEMES */
+    .sec-themes { height: 400vh; position: relative; /* scrub spacer */ }
+    .theme-sticky-wrap { position: sticky; top: 0; width: 100vw; height: 100vh; overflow: hidden; }
+    .theme-panel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; clip-path: inset(0 0 0 100%); will-change: clip-path, transform; }
+    .theme-panel:first-child { clip-path: inset(0 0 0 0); }
+    .theme-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: -1; transform: scale(1.1); will-change: transform; }
+    .theme-num { font-size: 30vw; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.1); position: absolute; font-family: var(--font-display); z-index: 1;}
+    .theme-text { z-index: 2; text-align: center; }
+    .theme-title { font-size: 8vw; letter-spacing: -0.02em; }
+    .theme-sub { font-size: 14px; letter-spacing: 0.15em; margin-top: 10px; }
+    
+    /* SECTION 6 - INQUIRY */
+    .sec-inquiry { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 10vh 10vw; justify-content: center; flex-direction: column;}
+    .bg-word-fade {
+      position: absolute; font-size: 30vw; font-family: var(--font-display); color: var(--cream); opacity: 0.05;
+      pointer-events: none; z-index: 0; white-space: nowrap; top: 50%; transform: translateY(-50%); text-align: center;
+    }
+    .contact-layout { z-index: 10; text-align: center; margin-bottom: 10vh; }
+    .contact-h1 { font-size: 8vw; letter-spacing: -0.02em; line-height: 0.9; }
+    .contact-sub { font-size: 15px; font-weight: 300; opacity: 0.8; max-width: 400px; margin: 2rem auto; }
+    .contact-links { display: flex; flex-direction: column; gap: 20px; font-family: var(--font-display); font-size: 28px; }
+    .c-link { color: var(--cream); text-decoration: none; display: inline-block; transition: text-shadow 0.3s; }
+    .c-link:hover { text-shadow: 0 0 15px var(--gold); }
+    
+    .btn-3d {
+      background: transparent; border: 1px solid rgba(245,240,232,0.4); color: var(--cream); padding: 20px 40px; margin-top: 40px;
+      font-family: var(--font-display); font-size: 24px; letter-spacing: 0.1em; cursor: none; position: relative; overflow: hidden;
+      transition: color 0.4s, transform 0.1s; text-decoration: none; display: inline-block;
+    }
+    .btn-3d::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--gold); clip-path: inset(0 100% 0 0); transition: clip-path 0.4s ease; z-index: -1; }
+    .btn-3d:hover { color: var(--black); }
+    .btn-3d:hover::before { clip-path: inset(0 0 0 0); }
+    .btn-3d:active { transform: scale(0.97); }
+
+    .wa-float {
+      position: fixed; right: 2rem; bottom: 2rem; width: 52px; height: 52px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; z-index: 1000; text-decoration: none;
+      animation: waPulse 2.5s ease-out infinite; cursor: none;
+    }
+    @keyframes waPulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.6); } 100% { box-shadow: 0 0 0 16px rgba(37,211,102,0); } }
+
+    footer {
+      border-top: 1px solid rgba(245,240,232,0.08); width: 100%; padding: 2rem 0; display: flex; justify-content: space-between;
+      font-size: 9px; letter-spacing: 0.15em; color: rgba(245,240,232,0.3); text-transform: uppercase;
+    }
+
+    /* MOBILE SHIFT */
+    @media (max-width: 768px) {
+      .hero-word { font-size: 24vw; line-height: 1; margin-bottom: 0px; }
+      .sidebar-nav { display: none; }
+      .sec-story { flex-direction: column; padding-top: 100px; }
+      .story-images { width: 100%; height: 40vh; margin-bottom: 40px; }
+      .story-content { width: 100%; }
+      .stats { flex-direction: column; gap: 1rem; }
+      .reels-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .contact-h1 { font-size: 15vw; }
+      .giant-word { font-size: 14vw; }
+      .btn-3d { font-size: 18px; padding: 15px 30px; margin-top: 20px;}
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LOADER overlay -->
+  <div id="loader"></div>
+
+  <!-- CURSOR -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- SIDEBAR NAV -->
+  <nav class="sidebar-nav">
+    <a href="#home" class="nav-item active link-hover">Home</a>
+    <a href="#story" class="nav-item link-hover">Story</a>
+    <a href="#work" class="nav-item link-hover">Work</a>
+    <a href="#reels" class="nav-item link-hover">Reels</a>
+    <a href="#themes" class="nav-item link-hover">Themes</a>
+    <a href="#inquiry" class="nav-item link-hover">Inquiry</a>
+  </nav>
+  <div class="nav-brand">BALU STUDIO</div>
+
+  <!-- MAIN WRAPPER FOR LENIS -->
+  <main id="smooth-wrapper">
+
+    <!-- SEC 1: HERO -->
+    <section class="sec-hero" id="home">
+      <div class="hero-vid-wrapper" id="hero-3d">
+        <video class="bg-layer" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1600">
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-couple-on-their-wedding-day-4056-large.mp4" type="video/mp4" />
+        </video>
+        <div class="gradient-overlay"></div>
+        <canvas id="hero-canvas"></canvas>
+      </div>
+
+      <div class="hero-content">
+        <div class="h-display hero-word" id="hero-w1"></div><br>
+        <div class="h-display hero-word text-gold" id="hero-w2" style="margin-top:-2vw"></div>
+        <div class="hero-sub font-body">CINEMATIC VISIONARIES · KALYANDURG</div>
+      </div>
+
+      <div class="cta-area">
+        SCROLL TO EXPLORE<br>
+        <div class="arrow-down">↓</div>
+      </div>
+    </section>
+
+    <!-- SEC 2: STORY -->
+    <section class="sec-story" id="story">
+      <div class="giant-word h-display">STORY</div>
+      
+      <div class="story-images img-hover-zone">
+        <div class="floating-card card1" data-speed="0.3"></div>
+        <div class="floating-card card2" data-speed="0.18"></div>
+        <div class="floating-card card3" data-speed="0.08"></div>
+      </div>
+
+      <div class="story-content">
+        <span class="label">THE STUDIO</span>
+        <h2 class="story-h2 h-display">Rooted in Kalyandurg.</h2>
+        <div class="story-p" id="story-text">
+          <span class="split-line">For over 7 years, Balu Studio has been Kalyandurg's</span>
+          <span class="split-line">most trusted visual storyteller. We approach every</span>
+          <span class="split-line">wedding, every candid frame, and every creative edit</span>
+          <span class="split-line">with the precision of cinema and the warmth of memory.</span>
+        </div>
+
+        <div class="stats">
+          <div><div class="stat-num">700+</div><div class="stat-label">Weddings Shot</div></div>
+          <div><div class="stat-num">7</div><div class="stat-label">Years of Craft</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEC 3: WORK -->
+    <section class="sec-work" id="work">
+      <div class="giant-word h-display">WORK</div>
+      
+      <div class="gallery-filters">
+        <div class="filter-tab active link-hover">ALL</div>
+        <div class="filter-tab link-hover">WEDDING</div>
+        <div class="filter-tab link-hover">CANDID</div>
+      </div>
+
+      <div class="gallery-track" id="gallery-track">
+        <!-- 9 Items -->
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #1a1208)"></div>
+          <div class="gallery-overlay"><div class="gal-title">The Sharma Wedding</div><div class="gal-tag">WEDDINGS</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #120818)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Riya + Arun Pre-Wedding</div><div class="gal-tag">WEDDINGS</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #081218)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Kalyandurg Candid</div><div class="gal-tag">CANDID</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #18080a)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Oil Painting Portrait</div><div class="gal-tag">CREATIVE</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #080a18)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Baby Wonderland</div><div class="gal-tag">CANDID</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #0a1808)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Birthday Bash</div><div class="gal-tag">EVENTS</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #181808)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Corporate Launch</div><div class="gal-tag">EVENTS</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #180a08)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Mehndi Ceremony Reels</div><div class="gal-tag">WEDDINGS</div></div>
+        </div>
+        <div class="gallery-card img-hover-zone">
+          <div class="img" style="background-image:linear-gradient(to top, #0a0a0a, #0a0818)"></div>
+          <div class="gallery-overlay"><div class="gal-title">Village Portrait</div><div class="gal-tag">CREATIVE</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEC 4: REELS -->
+    <section class="sec-reels" id="reels">
+      <div class="giant-word h-display">REELS</div>
+      <video class="reels-bg-video" id="reels-vid" loop muted playsinline poster="https://images.unsplash.com/photo-1519741497674-611481863552?w=1600">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-wedding-traditional-ceremony-1211-large.mp4" type="video/mp4" />
+      </video>
+      <div class="gradient-overlay"></div>
+
+      <div class="reels-grid">
+        <div class="reel-card">
+          <div class="reel-face reel-front"><svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+          <div class="reel-face reel-back"><div class="reel-desc">The Sharma Highlight</div><a href="#" class="reel-link">Watch on Instagram</a></div>
+        </div>
+        <div class="reel-card">
+          <div class="reel-face reel-front"><svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+          <div class="reel-face reel-back"><div class="reel-desc">Pre-Wedding Cinematic</div><a href="#" class="reel-link">Watch on Instagram</a></div>
+        </div>
+        <div class="reel-card">
+          <div class="reel-face reel-front"><svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+          <div class="reel-face reel-back"><div class="reel-desc">Baby's First Year</div><a href="#" class="reel-link">Watch on Instagram</a></div>
+        </div>
+        <div class="reel-card">
+          <div class="reel-face reel-front"><svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+          <div class="reel-face reel-back"><div class="reel-desc">Birthday Event</div><a href="#" class="reel-link">Watch on Instagram</a></div>
+        </div>
+        <div class="reel-card">
+          <div class="reel-face reel-front"><svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+          <div class="reel-face reel-back"><div class="reel-desc">Corporate Product</div><a href="#" class="reel-link">Watch on Instagram</a></div>
+        </div>
+        <div class="reel-card">
+          <div class="reel-face reel-front"><svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+          <div class="reel-face reel-back"><div class="reel-desc">Mehndi + Sangeet</div><a href="#" class="reel-link">Watch on Instagram</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEC 5: THEMES -->
+    <section class="sec-themes" id="themes">
+      <div class="giant-word h-display">THEMES</div>
+      <div class="theme-sticky-wrap">
+        <div class="theme-panel tp-1">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1600" class="theme-bg" />
+          <div class="gradient-overlay"></div>
+          <div class="theme-text"><div class="theme-title h-display text-gold">WEDDING</div><div class="theme-sub font-body">Cinematic love stories. Scenic locations.</div></div>
+        </div>
+        <div class="theme-panel tp-2">
+          <div class="theme-bg" style="background:#0a0a0a;"></div>
+          <div class="theme-num">02</div>
+          <div class="theme-text"><div class="theme-title h-display" style="color:#00bcd4">CANDID</div><div class="theme-sub font-body" style="color:var(--cream)">Unposed authentic moments.</div></div>
+        </div>
+        <div class="theme-panel tp-3">
+          <div class="theme-bg" style="background:#180a0a;"></div>
+          <div class="theme-text"><div class="theme-title h-display" style="color:var(--gold)">CREATIVE</div><div class="theme-sub font-body" style="color:var(--cream)">Oil painting styles & unique edits.</div></div>
+        </div>
+        <div class="theme-panel tp-4">
+          <div class="theme-bg" style="background:#0a180a;"></div>
+          <div class="theme-text"><div class="theme-title h-display" style="color:var(--cream)">EVENTS</div><div class="theme-sub font-body" style="color:var(--gold)">Birthdays, Galas, & Corporate.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEC 6: INQUIRY -->
+    <section class="sec-inquiry" id="inquiry">
+      <div class="giant-word h-display">INQUIRY</div>
+      <div class="bg-word-fade">INQUIRY</div>
+      
+      <div class="contact-layout">
+        <div class="contact-h1 h-display">LET'S CREATE<br><span class="text-gold">TOGETHER</span></div>
+        <div class="contact-sub">Based in Kalyandurg, AP.<br>Available for shoots across Andhra Pradesh & Telangana.</div>
+        
+        <div class="contact-links img-hover-zone">
+          <a href="tel:+919121059905" class="c-link">+91 91210 59905</a>
+          <a href="tel:+919866022832" class="c-link">+91 98660 22832</a>
+          <a href="https://maps.google.com/?q=H436+H9C,+Bellary+Rd,+Kalyandurg,+Andhra+Pradesh" target="_blank" class="c-link" style="font-size:18px; margin-top:10px;">H436+H9C, Bellary Rd, Kalyandurg</a>
+        </div>
+        
+        <a href="https://wa.me/919121059905" class="btn-3d link-hover" target="_blank">BOOK YOUR SHOOT</a>
+      </div>
+
+      <footer>
+        <div>© 2025 Balu Studio</div>
+        <div style="font-size: 14px; letter-spacing: 0.25em;">BALU STUDIO</div>
+        <div><a href="#" class="link-hover" style="color:inherit; text-decoration:none">@BALUSTUDIO_PKL</a> · <a href="#" class="link-hover" style="color:inherit; text-decoration:none">@BALUSTUDIOKPM</a></div>
+      </footer>
+    </section>
+
+  </main>
+
+  <a href="https://wa.me/919121059905" class="wa-float link-hover" target="_blank">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. LENIS SCROLL SETUP
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: false
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Sync GSAP with Lenis
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+    gsap.ticker.lagSmoothing(0, 0);
+
+    // 2. CURSOR LOGIC
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mX = window.innerWidth / 2, mY = window.innerHeight / 2;
+    let rX = mX, rY = mY;
+    
+    window.addEventListener('mousemove', (e) => {
+      mX = e.clientX; mY = e.clientY;
+      cursorDot.style.left = mX + 'px'; cursorDot.style.top = mY + 'px';
+    });
+
+    function renderCursor() {
+      // Lerp for ring
+      rX += (mX - rX) * 0.12;
+      rY += (mY - rY) * 0.12;
+      cursorRing.style.left = rX + 'px';
+      cursorRing.style.top = rY + 'px';
+      requestAnimationFrame(renderCursor);
+    }
+    requestAnimationFrame(renderCursor);
+
+    document.querySelectorAll('.img-hover-zone, .gallery-card, .reel-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover-img'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover-img'));
+    });
+    document.querySelectorAll('.link-hover, .cta-area, .c-link').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover-link'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover-link'));
+    });
+
+    // 3. PAGE LOAD SEQUENCE
+    const initLoad = () => {
+      setTimeout(() => {
+        document.getElementById('loader').style.opacity = '0';
+        
+        // Split word animation
+        const word1 = "BALU".split('');
+        const word2 = "STUDIO".split('');
+        
+        const hw1 = document.getElementById('hero-w1');
+        const hw2 = document.getElementById('hero-w2');
+        hw1.innerHTML = ''; hw2.innerHTML = '';
+        
+        word1.forEach(l => { hw1.innerHTML += `<span style="display:inline-block;opacity:0">${l}</span>`; });
+        word2.forEach(l => { hw2.innerHTML += `<span style="display:inline-block;opacity:0">${l}</span>`; });
+
+        // Animation sequence
+        gsap.to('#hero-w1 span', { opacity: 1, y: 0, duration: 1, stagger: 0.06, ease: "power4.out", delay: 0.4 });
+        gsap.to('#hero-w2 span', { opacity: 1, y: 0, duration: 1, stagger: 0.06, ease: "power4.out", delay: 0.8 });
+        gsap.to('.hero-sub', { opacity: 1, duration: 1, delay: 1.4 });
+        
+        // Settle 3D
+        gsap.to('#hero-3d', { rotateX: 0, rotateY: 0, scale: 1, duration: 2, ease: "power2.out", delay: 1.8 });
+      }, 300);
+    };
+    window.addEventListener('load', initLoad);
+
+    // 4. PARTICLES CANVAS
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const particles = Array.from({length: 60}, () => ({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      s: Math.random() * 2 + 1, seed: Math.random() * 100
+    }));
+
+    function drawParticles(time) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(245,240,232,0.5)';
+      particles.forEach(p => {
+        p.y -= 0.5; p.x += Math.sin(time*0.001 + p.seed)*0.4;
+        if(p.y < 0) p.y = canvas.height;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+        
+        // Repel mouse
+        const dx = mX - p.x; const dy = mY - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 100) { p.x -= dx*0.05; p.y -= dy*0.05; }
+      });
+      requestAnimationFrame(drawParticles);
+    }
+    requestAnimationFrame(drawParticles);
+
+    // 5. GSAP SCROLL ANIMATIONS
+
+    // Sidebar active state highlights
+    const sections = gsap.utils.toArray('section');
+    sections.forEach(sec => {
+      ScrollTrigger.create({
+        trigger: sec,
+        start: "top center",
+        end: "bottom center",
+        onToggle: self => {
+          if(self.isActive) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const link = document.querySelector(`.nav-item[href="#${sec.id}"]`);
+            if(link) link.classList.add('active');
+          }
+        }
+      });
+    });
+
+    // Giant Word Reveal
+    gsap.utils.toArray('.giant-word').forEach(word => {
+      gsap.to(word, {
+        scrollTrigger: { trigger: word.parentElement, start: "top 80%", toggleActions: "play none none none" },
+        clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "power4.out"
+      });
+    });
+
+    // Story Section Parallax & Reveal
+    gsap.utils.toArray('.split-line').forEach((line, i) => {
+      gsap.to(line, {
+        scrollTrigger: { trigger: "#story-text", start: "top 85%" },
+        opacity: 1, x: 0, duration: 1, delay: i*0.12, ease: "power2.out"
+      });
+    });
+
+    // 3D image tilt on mousemove
+    document.querySelector('.story-images').addEventListener('mousemove', e => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width/2;
+      const y = e.clientY - rect.top - rect.height/2;
+      gsap.to('.floating-card', { rotateY: x*0.05, rotateX: -y*0.05, duration: 0.5, ease: "power1.out" });
+    });
+    
+    // Parallax on image cards
+    gsap.utils.toArray('.floating-card').forEach(card => {
+      gsap.to(card, {
+        scrollTrigger: { trigger: ".sec-story", scrub: true },
+        y: () => -window.scrollY * parseFloat(card.dataset.speed)
+      });
+    });
+
+    // Horizontal Scroll Gallery (Section 3)
+    if(window.innerWidth > 768) {
+      const track = document.getElementById('gallery-track');
+      const getScrollAmount = () => -(track.scrollWidth - window.innerWidth + 200);
+      gsap.to(track, {
+        x: getScrollAmount,
+        ease: "none",
+        scrollTrigger: { trigger: ".sec-work", start: "top top", end: () => `+=${track.scrollWidth}`, pin: true, scrub: 1.5, invalidateOnRefresh: true }
+      });
+    }
+
+    // Reels Background Fade
+    ScrollTrigger.create({
+      trigger: ".sec-reels", start: "top 50%", end: "bottom 50%",
+      onEnter: () => { gsap.to('#reels-vid', {opacity: 1, duration: 1}); document.getElementById('reels-vid').play(); },
+      onLeave: () => { gsap.to('#reels-vid', {opacity: 0, duration: 1}); document.getElementById('reels-vid').pause(); },
+      onEnterBack: () => { gsap.to('#reels-vid', {opacity: 1, duration: 1}); document.getElementById('reels-vid').play(); },
+      onLeaveBack: () => { gsap.to('#reels-vid', {opacity: 0, duration: 1}); document.getElementById('reels-vid').pause(); }
+    });
+
+    // Reels Cards Stagger Enter
+    gsap.utils.toArray('.reel-card').forEach((card, i) => {
+      ScrollTrigger.create({
+        trigger: ".reels-grid", start: "top 80%",
+        onEnter: () => setTimeout(() => card.classList.add('revealed'), i*100)
+      });
+    });
+
+    // Themes Stack Scroll
+    const panels = gsap.utils.toArray('.theme-panel');
+    gsap.to(panels, {
+      yPercent: -100, ease: "none", stagger: 0.5,
+      scrollTrigger: {
+        trigger: ".sec-themes", pin: true, scrub: 1,
+        start: "top top", end: () => "+=" + (panels.length * window.innerHeight)
+      }
+    });
+
+  </script>
+</body>
+</html>
