@@ -34,8 +34,8 @@ export default function Preloader() {
       </div>
       <style>{`
         @keyframes pulseGlow {
-          0% { opacity: 0.4; filter: blur(4px); transform: scale(0.95); text-shadow: 0 0 0 rgba(0,255,255,0); }
-          100% { opacity: 1; filter: blur(0); transform: scale(1); text-shadow: 0 0 20px rgba(0,255,255,0.6); }
+          0% { opacity: 0.4; filter: blur(4px); transform: scale(0.95); text-shadow: 0 0 0 rgba(212, 175, 55, 0); }
+          100% { opacity: 1; filter: blur(0); transform: scale(1); text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
         }
       `}</style>
     </div>

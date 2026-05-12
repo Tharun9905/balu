@@ -58,7 +58,7 @@ export default function Testimonials() {
               width: '12px', height: '12px', borderRadius: '50%',
               background: i === currentIndex ? 'var(--electric-cyan)' : 'var(--space-mid)',
               border: `1px solid ${i === currentIndex ? 'transparent' : 'var(--glass-border)'}`,
-              cursor: 'none', transition: 'all 0.3s ease'
+              cursor: 'pointer', transition: 'all 0.3s ease'
             }}
             className="hoverable"
             aria-label={`Go to slide ${i + 1}`}

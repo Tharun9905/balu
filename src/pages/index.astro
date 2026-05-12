@@ -1,18 +1,63 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Preloader from '../components/Preloader';
-import Cursor from '../components/Cursor';
 import ParticleCanvas from '../components/ParticleCanvas';
 import Gallery from '../components/Gallery';
 import ServiceCards from '../components/ServiceCards';
 import Testimonials from '../components/Testimonials';
+
+import fs from 'node:fs';
+import path from 'node:path';
+
+const galleryDir = path.join(process.cwd(), 'public', 'gallery');
+let galleryItems = [];
+let galleryCategories = ['all'];
+
+if (fs.existsSync(galleryDir)) {
+  const folders = fs.readdirSync(galleryDir).filter(f => fs.statSync(path.join(galleryDir, f)).isDirectory());
+  
+  let idCounter = 1;
+  for (const folder of folders) {
+    galleryCategories.push(folder);
+    const folderPath = path.join(galleryDir, folder);
+    const files = fs.readdirSync(folderPath).filter(file => /\.(jpe?g|png|webp|gif)$/i.test(file));
+    
+    for (const file of files) {
+      galleryItems.push({
+        id: idCounter++,
+        title: `${folder.charAt(0).toUpperCase() + folder.slice(1)} Moments`,
+        tag: folder.charAt(0).toUpperCase() + folder.slice(1),
+        category: folder,
+        image: `/gallery/${folder}/${file}`
+      });
+    }
+  }
+}
+
+const defaultItems = [
+  { id: 1, title: 'The Sharma Wedding', tag: 'Weddings', category: 'weddings', image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80' },
+  { id: 2, title: 'Riya + Arun Pre-Wedding', tag: 'Weddings', category: 'weddings', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80' },
+  { id: 3, title: 'Kalyandurg Candid Series', tag: 'Candid', category: 'candid', image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80' },
+  { id: 4, title: 'Editorial Portrait', tag: 'Creative', category: 'creative', image: 'https://images.unsplash.com/photo-1494955870715-979c4f101783?auto=format&fit=crop&w=800&q=80' },
+  { id: 5, title: 'Corporate Gala 2024', tag: 'Events', category: 'events', image: 'https://images.unsplash.com/photo-1542042161784-26ab9e041e89?auto=format&fit=crop&w=800&q=80' },
+  { id: 6, title: 'Baby Wonderland Shoot', tag: 'Candid', category: 'candid', image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80' },
+  { id: 7, title: 'Birthday Bash', tag: 'Events', category: 'events', image: 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80' },
+  { id: 8, title: 'Engagement Details', tag: 'Weddings', category: 'weddings', image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80' },
+  { id: 9, title: 'Creative Concepts', tag: 'Creative', category: 'creative', image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80' }
+];
+
+let startId = galleryItems.length > 0 ? Math.max(...galleryItems.map(i => i.id)) + 1 : 1;
+for (const item of defaultItems) {
+  galleryItems.push({ ...item, id: startId++ });
+}
+
+galleryCategories = ['all', ...Array.from(new Set(galleryItems.map(i => i.category)))];
 ---
 
 <Layout title="Balu Studio | Wedding & Candid Photography in Kalyandurg">
   <Preloader client:load />
-  <Cursor client:load />
   <div class="video-bg-container">
-    <div class="hero-ai-bg" style="background-image: url('/cinematic_hero_bg.png')"></div>
+    <div class="hero-ai-bg" style="background-image: url('/pink_gold_bg.png')"></div>
     <div class="video-overlay"></div>
   </div>
 
@@ -50,6 +95,28 @@ import Testimonials from '../components/Testimonials';
     </div>
   </section>
 
+  <section class="section-container video-tour-section">
+    <div class="section-header reveal">
+      <div class="section-label">— Inside Balu Studio —</div>
+      <h2>Take a Studio Tour</h2>
+    </div>
+    <div class="video-tour-container reveal">
+      <div class="video-tour-wrapper hoverable" id="video-tour-player">
+        <video class="studio-video" id="studio-video-el" poster="/studio_video_poster.png" preload="none" muted loop playsinline>
+          <!-- Replace the src below with your actual studio tour video file -->
+          <!-- <source src="/studio_tour.mp4" type="video/mp4" /> -->
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-tour-overlay" id="video-overlay">
+          <div class="play-button" id="play-btn">
+            <svg viewBox="0 0 24 24" fill="white" width="44" height="44"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <p style="color: white; opacity: 0.85; margin-top: 16px; font-family: var(--font-heading); font-size: 18px; letter-spacing: 2px; text-transform: uppercase;">Experience the Elegance</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section-container" id="services">
     <div class="section-header reveal">
       <div class="section-label">— What We Create —</div>
@@ -63,7 +130,7 @@ import Testimonials from '../components/Testimonials';
       <div class="section-label">— Featured Work —</div>
       <h2>Moments Beyond Gravity</h2>
     </div>
-    <Gallery client:load />
+    <Gallery client:load items={galleryItems} categories={galleryCategories} />
   </section>
 
   <section class="section-container" id="about">
@@ -99,6 +166,9 @@ import Testimonials from '../components/Testimonials';
     </div>
   </section>
 
+    </div>
+  </section>
+
   <section class="section-container" id="testimonials" style="padding-top: 50px;">
     <div class="section-header reveal">
       <div class="section-label">— Client Love —</div>
@@ -130,13 +200,39 @@ import Testimonials from '../components/Testimonials';
     </div>
   </section>
 
-  <section class="section-container" id="contact">
+  <section class="section-container" id="location">
+    <div class="section-header reveal">
+      <div class="section-label">— Visit Us —</div>
+      <h2>Our Photography Studio</h2>
+    </div>
+    <div class="location-layout reveal">
+      <div class="map-container hoverable">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15444.6475730379!2d77.0988623!3d14.5904576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb71339af55b0a3%3A0xc6e4b85593c6ab5a!2sKalyandurg%2C%20Andhra%20Pradesh%20515761!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <div class="studio-image-container hoverable">
+        <img src="/studio_location.png" alt="Balu Photography Studio Exterior" class="studio-location-img" />
+        <div class="studio-info-overlay">
+          <h3 style="margin-bottom: 8px; font-family: var(--font-heading);">Balu Studio</h3>
+          <p style="font-size: 14px; opacity: 0.9;">H436+H9C, Bellary Rd<br/>Kalyandurg, Andhra Pradesh</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-container" id="contact" style="padding-top: 0;">
     <div class="contact-card reveal">
       <h2>Let's Create Together</h2>
       <p style="opacity: 0.8; margin-top: 10px;">Based in Kalyandurg — Available across Andhra Pradesh</p>
       <div class="contact-items">
         <a href="tel:+919121059905" class="contact-item hoverable">📞 +91 91210 59905</a>
-        <a href="tel:+919866022832" class="contact-item hoverable">📞 +91 98660 22832</a>
         <a href="https://maps.google.com/?q=H436+H9C,+Bellary+Rd,+Kalyandurg,+Andhra+Pradesh" target="_blank" class="contact-item hoverable">📍 H436+H9C, Bellary Rd, Kalyandurg</a>
       </div>
       <a href="https://wa.me/919121059905?text=Hi%20Balu%20Studio!%20%F0%9F%8E%A5%F0%9F%93%B8%0A%0AI%20just%20saw%20your%20stunning%20work%20online%20and%20I%20am%20completely%20amazed!%20%E2%9C%A8%0A%0AI%20want%20to%20book%20a%20shoot%20for%20my%20upcoming%20%5BWedding%20%2F%20Pre-Wedding%20%2F%20Event%5D.%20%F0%9F%92%8D%0A%0ACould%20you%20please%20share%3A%0A%E2%9C%85%20Your%20availability%0A%E2%9C%85%20Package%20details%20%26%20pricing%0A%E2%9C%85%20Portfolio%20samples%0A%0ALooking%20forward%20to%20creating%20memories%20together!%20%F0%9F%99%8F" target="_blank" class="btn btn-primary hoverable" style="width: 100%; margin-top: 20px;">📱 Book on WhatsApp Now &rarr;</a>
@@ -177,7 +273,7 @@ import Testimonials from '../components/Testimonials';
     .video-bg-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; background: #000; }
     .hero-ai-bg { width: 100%; height: 100%; background-size: cover; background-position: center; animation: cinematicPan 20s infinite alternate ease-in-out; transform-origin: center; }
     @keyframes cinematicPan { 0% { transform: scale(1) translate(0, 0); filter: brightness(0.8); } 100% { transform: scale(1.15) translate(-10px, 15px); filter: brightness(1.1); } }
-    .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(4, 4, 15, 0.6) 0%, rgba(4, 4, 15, 0.95) 100%); pointer-events: none; }
+    .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(253, 251, 247, 0.4) 0%, rgba(253, 251, 247, 0.95) 100%); pointer-events: none; }
 
     /* Navbar */
     nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 20px 0; transition: all 0.3s ease; }
@@ -188,7 +284,7 @@ import Testimonials from '../components/Testimonials';
     .nav-links a { color: var(--stellar-white); text-decoration: none; font-family: var(--font-heading); font-weight: 400; position: relative; padding-bottom: 4px; }
     .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--electric-cyan); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease; }
     .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
-    .hamburger { display: none; background: transparent; border: none; color: white; font-size: 24px; cursor: none; }
+    .hamburger { display: none; background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; }
 
     /* Hero */
     .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
@@ -217,11 +313,11 @@ import Testimonials from '../components/Testimonials';
     .ig-handles a { color: var(--electric-cyan); text-decoration: none; font-family: var(--font-heading); }
     .ig-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 40px; }
     .ig-card { aspect-ratio: 1; background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; }
-    .ig-card:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0,255,255,0.3); z-index: 2; border: 1px solid var(--electric-cyan); }
+    .ig-card:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); z-index: 2; border: 1px solid var(--electric-cyan); }
     .btn-wrap { text-align: center; }
 
     /* Contact */
-    .contact-card { max-width: 680px; margin: 0 auto; background: var(--glass-bg); border: 1px solid rgba(0,255,255,0.20); border-radius: 24px; padding: 48px; box-shadow: 0 40px 120px rgba(0, 255, 255, 0.06); text-align: center; }
+    .contact-card { max-width: 680px; margin: 0 auto; background: var(--glass-bg); border: 1px solid rgba(212, 175, 55, 0.20); border-radius: 24px; padding: 48px; box-shadow: 0 40px 120px rgba(212, 175, 55, 0.06); text-align: center; }
     .contact-items { margin: 30px 0; display: flex; flex-direction: column; gap: 16px; }
     .contact-item { font-size: 18px; color: var(--stellar-white); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 12px; transition: color 0.3s; }
     .contact-item:hover { color: var(--electric-cyan); }
@@ -232,12 +328,31 @@ import Testimonials from '../components/Testimonials';
 
     /* About Enhanced */
     .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .about-image-wrapper { width: 100%; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 255, 255, 0.1); border: 1px solid var(--glass-border); }
+    .about-image-wrapper { width: 100%; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(212, 175, 55, 0.1); border: 1px solid var(--glass-border); }
     .about-img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; transform-origin: center; transition: transform 0.6s ease; }
     .about-img:hover { transform: scale(1.05); }
 
+    /* Video Tour */
+    .video-tour-section { background: linear-gradient(180deg, transparent, rgba(212,175,55,0.04), transparent); }
+    .video-tour-container { max-width: 1100px; margin: 0 auto; }
+    .video-tour-wrapper { position: relative; width: 100%; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 80px rgba(212, 175, 55, 0.18); border: 1.5px solid var(--glass-border); aspect-ratio: 16/9; background: #111; cursor: pointer; }
+    .studio-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; transition: opacity 0.5s ease, transform 0.5s ease; }
+    .video-tour-wrapper:hover .studio-video { opacity: 0.55; transform: scale(1.02); }
+    .video-tour-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%); transition: opacity 0.4s ease; pointer-events: none; }
+    .play-button { width: 88px; height: 88px; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(10px); border: 1.5px solid rgba(255, 255, 255, 0.5); border-radius: 50%; display: flex; justify-content: center; align-items: center; animation: pulsePlay 2.2s infinite; transition: transform 0.3s ease, background 0.3s ease; }
+    .video-tour-wrapper:hover .play-button { transform: scale(1.12); background: rgba(255, 255, 255, 0.28); }
+    @keyframes pulsePlay { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); } 70% { box-shadow: 0 0 0 24px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+
+    /* Location Map & Studio */
+    .location-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+    .map-container { width: 100%; aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(212, 175, 55, 0.08); border: 1px solid var(--glass-border); }
+    .studio-image-container { position: relative; width: 100%; aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(212, 175, 55, 0.08); border: 1px solid var(--glass-border); }
+    .studio-location-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .studio-image-container:hover .studio-location-img { transform: scale(1.05); }
+    .studio-info-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; }
+
     /* Footer Enhancements */
-    .site-footer { border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); margin-top: 100px; }
+    .site-footer { border-top: 1px solid var(--glass-border); background: rgba(253, 251, 247, 0.8); margin-top: 100px; }
     .footer-links a { color: var(--stellar-white); text-decoration: none; }
 
     /* Breakpoints */
@@ -246,7 +361,7 @@ import Testimonials from '../components/Testimonials';
       .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--deep-space); flex-direction: column; padding: 20px 0; }
       .nav-links.show { display: flex; }
       .hamburger { display: block; }
-      .about-layout { grid-template-columns: 1fr; gap: 40px; }
+      .about-layout, .location-layout { grid-template-columns: 1fr; gap: 40px; }
       .hero-cta { flex-direction: column; }
       .ig-grid { grid-template-columns: repeat(2, 1fr); }
       .contact-card { padding: 30px 20px; }
@@ -328,6 +443,27 @@ import Testimonials from '../components/Testimonials';
     const navLinks = document.getElementById('nav-links');
     menuBtn?.addEventListener('click', () => {
       navLinks?.classList.toggle('show');
+    });
+
+    // Studio Video Player - Click to play/pause
+    const videoPlayer = document.getElementById('video-tour-player');
+    const videoEl = document.getElementById('studio-video-el') as HTMLVideoElement;
+    const videoOverlay = document.getElementById('video-overlay');
+
+    videoPlayer?.addEventListener('click', () => {
+      if (!videoEl) return;
+      if (videoEl.paused) {
+        videoEl.play();
+        if (videoOverlay) videoOverlay.style.opacity = '0';
+      } else {
+        videoEl.pause();
+        if (videoOverlay) videoOverlay.style.opacity = '1';
+      }
+    });
+
+    // Show overlay again when video ends
+    videoEl?.addEventListener('ended', () => {
+      if (videoOverlay) videoOverlay.style.opacity = '1';
     });
   </script>
 

@@ -1,12 +1,12 @@
 :root {
-  --deep-space: #04040f;
-  --space-mid: #0d0b2a;
-  --electric-cyan: #00FFFF;
-  --violet: #7c3aed;
-  --soft-violet: #a78bfa;
-  --stellar-white: #F5F5FF;
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(0, 255, 255, 0.15);
+  --deep-space: #FAF5F5;
+  --space-mid: #FFF0F5;
+  --electric-cyan: #D4AF37;
+  --violet: #FFB6C1;
+  --soft-violet: #E58D9E;
+  --stellar-white: #2F2A2A;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(212, 175, 55, 0.3);
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
@@ -28,7 +28,6 @@ body {
   font-size: 16px;
   line-height: 1.7;
   overflow-x: hidden;
-  cursor: none;
 }
 
 /* Typography */
@@ -49,17 +48,17 @@ h3 { font-size: 24px; font-weight: 500; }
   font-family: var(--font-heading);
   font-weight: 500;
   text-decoration: none;
-  cursor: none;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 .btn-pill {
-  border: 1px solid rgba(0,255,255,0.4);
-  background: rgba(0,255,255,0.08);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.08);
   color: var(--stellar-white);
 }
 .btn-pill:hover {
-  background: rgba(0,255,255,0.18);
-  box-shadow: 0 0 20px rgba(0,255,255,0.5);
+  background: rgba(212, 175, 55, 0.18);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
 }
 .btn-ghost {
   color: var(--stellar-white);
@@ -72,7 +71,7 @@ h3 { font-size: 24px; font-weight: 500; }
 }
 .btn-primary {
   background: linear-gradient(90deg, var(--electric-cyan), var(--violet));
-  color: var(--deep-space);
+  color: #fff;
   font-weight: 700;
   border-radius: 12px;
   padding: 18px 36px;
